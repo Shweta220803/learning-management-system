@@ -3,25 +3,22 @@ import { AppContext } from "../../context/AppContext";
 import Loading from "../../components/student/Loading";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { dummyEducatorData } from "../../assets/assets/assets";
 
 const MyCourses = () => {
-  const { currency, backendUrl, allCourses, getToken, isEducator } =
-    useContext(AppContext);
+  const { currency, backendUrl, getToken, isEducator } = useContext(AppContext);
 
   const [courses, setCourses] = useState(null);
 
   const fetchEducatorCourses = async () => {
-    // try {
-    //   const token = await getToken();
-    //   const { data } = await axios.get(backendUrl + "/api/educator/courses", {
-    //     headers: { Authorization: `Bearer ${token}` },
-    //   });
-    //   data.success && setCourses(data.courses);
-    // } catch (error) {
-    //   toast.error(error.message);
-    // }
-    setCourses(allCourses);
+    try {
+      const token = await getToken();
+      const { data } = await axios.get(backendUrl + "/api/educator/courses", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      data.success && setCourses(data.courses);
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   useEffect(() => {
@@ -29,6 +26,7 @@ const MyCourses = () => {
       fetchEducatorCourses();
     }
   }, [isEducator]);
+
   return courses ? (
     <div className="h-screen flex flex-col items-start justify-between md:p-8 md:pb-0 pt-8 pb-0 mt-10">
       <div className="w-full">

@@ -124,16 +124,16 @@ const AddCourse = () => {
 
       const token = await getToken();
 
-      // const { data } = await axios.post(
-      //   `${backendUrl}/api/educator/add-course`,
-      //   formData,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //       "Content-Type": "multipart/form-data",
-      //     },
-      //   }
-      // );
+      const { data } = await axios.post(
+        `${backendUrl}/api/educator/add-course`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       if (data.success) {
         toast.success(data.message);
@@ -207,7 +207,7 @@ const AddCourse = () => {
             <label htmlFor="thumbnailImage" className="flex items-center gap-3">
               <img
                 src={assets.file_upload_icon}
-                alt=""
+                alt="file-upload-icon"
                 className="p-3 bg-blue-500 rounded"
               />
               <input

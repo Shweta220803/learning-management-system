@@ -4,6 +4,7 @@ import { assets } from "../../assets/assets/assets";
 import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
 import { AppContext } from "../../context/AppContext";
 import axios from "axios";
+import { toast } from "react-toastify";
 // import { toast } from "react-toastify";
 
 const Navbar = () => {
@@ -15,29 +16,29 @@ const Navbar = () => {
   const { openSignIn } = useClerk();
   const { user } = useUser();
 
-  //
+  // become educator
   const becomeEducator = async () => {
-    // try {
-    //   if (isEducator) {
-    //     navigate("/educator");
-    //     return;
-    //   }
-    //   const token = await getToken();
-    //   const { data } = await axios.get(
-    //     backendUrl + "/api/educator/update-role",
-    //     {
-    //       headers: { Authorization: `Bearer ${token}` },
-    //     }
-    //   );
-    //   if (data.success) {
-    //     setIsEducator(true);
-    //     toast.success(data.message);
-    //   } else {
-    //     toast.error(data.message);
-    //   }
-    // } catch (error) {
-    //   toast.error(error.message);
-    // }
+    try {
+      if (isEducator) {
+        navigate("/educator");
+        return;
+      }
+      const token = await getToken();
+      const { data } = await axios.get(
+        backendUrl + "/api/educator/update-role",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (data.success) {
+        setIsEducator(true);
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
   return (
     <div

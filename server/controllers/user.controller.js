@@ -38,6 +38,14 @@ export const purchaseCourse = async (req, res) => {
     const { courseId } = req.body;
     const { origin } = req.headers;
     const userId = req.auth.userId;
+
+    if (!userId) {
+      return res
+        .status(401)
+        .json({ success: false, message: "User not authenticated" });
+    }
+
+    // Fetch User and Course Data
     const userData = await User.findById(userId);
     const courseData = await Course.findById(courseId);
 

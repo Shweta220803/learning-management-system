@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 import { Line } from "rc-progress";
 import Footer from "../../components/student/Footer";
-// import { toast } from "react-toastify";
-// import axios from "axios";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const MyEnrollments = () => {
   const {
@@ -12,35 +12,37 @@ const MyEnrollments = () => {
     navigate,
     userData,
     fetchUserEnrolledCourses,
-    // backendUrl,
-    // getToken,
-    // claculateNoOfLectures,
+    backendUrl,
+    getToken,
+    calculateNoOfLectures,
   } = useContext(AppContext);
 
   const [progressArray, setProgressArray] = useState([]);
+
   const getCourseProgress = async () => {
-    // try {
-    //   const token = await getToken();
-    //   const tempProgressArray = await Promise.all(
-    //     enrolledCourses.map(async (course) => {
-    //       const { data } = await axios.post(
-    //         `${backendUrl}/api/user/get-course-progress`,
-    //         { courseId: course._id },
-    //         {
-    //           headers: { Authorization: `Bearer ${token}` },
-    //         }
-    //       );
-    //       let totalLectures = claculateNoOfLectures(course);
-    //       const lectureCompleted = data.progressData
-    //         ? data.progressData.lectureCompleted.length
-    //         : 0;
-    //       return { totalLectures, lectureCompleted };
-    //     })
-    //   );
-    //   setProgressArray(tempProgressArray);
-    // } catch (error) {
-    //   toast.error(error.message);
-    // }
+    try {
+      const token = await getToken();
+      const tempProgressArray = await Promise.all(
+        enrolledCourses.map(async (course) => {
+          const { data } = await axios.post(
+            `${backendUrl}/api/user/get-user-course-progress`,
+            { courseId: course._id },
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          let totalLectures = calculateNoOfLectures(course); // Corrected usage
+
+          const lectureCompleted = data.progressData
+            ? data.progressData.lectureCompleted.length
+            : 0;
+          return { totalLectures, lectureCompleted };
+        })
+      );
+      setProgressArray(tempProgressArray);
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   useEffect(() => {

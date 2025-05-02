@@ -24,7 +24,8 @@ const CourseCard = ({ course }) => {
           <h3 className="text-xl font-semibold text-gray-800">
             {course.courseTitle}
           </h3>
-          <p className="text-gray-600">{course.educator.name} </p>
+          {/* <p className="text-gray-600">{course.educator.name} </p> */}
+          <p className="text-gray-600">{course.educator?.name || "Educator"}</p>
 
           {/* Rating Section */}
           <div className="flex items-center mt-2">

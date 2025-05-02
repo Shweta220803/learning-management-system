@@ -8,7 +8,9 @@ const purchaseSchema = new mongoose.Schema(
       required: true,
     },
     userId: {
-      type: String,
+      // type: String, // Change from `mongoose.Schema.Types.ObjectId`
+
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
@@ -22,7 +24,7 @@ const purchaseSchema = new mongoose.Schema(
       default: "pending",
     },
   },
-  { timestamp: true }
+  { timestamps: true }
 );
 
 const Purchase = mongoose.model("Purchase", purchaseSchema);
